@@ -16,6 +16,69 @@
   Once you've implemented the logic, test your code by running
 */
 
-class Calculator {}
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
 
+  getResult() {
+    console.log("Answer is " + this.result);
+    return this.result;
+  }
+
+  add(a) {
+    this.result += a;
+  }
+
+  subtract(a) {
+    this.result -= a;
+  }
+
+  multiply(a) {
+    if (this.result === 0) {
+      this.result = 1;
+      this.result *= a;
+    } else {
+      this.result *= a;
+    }
+  }
+
+  divide(a) {
+    if (a === 0) {
+      return new Error("divided by zero");
+    }
+    this.result /= a;
+  }
+
+  clear(){
+    this.result=0;
+  }
+
+  calculate(expression) {
+    // Remove continuous spaces and validate the expression
+    const sanitizedExpression = expression.replace(/\s+/g, '');
+
+    if (!/^[0-9+\-*/(). ]+$/.test(sanitizedExpression)) {
+      return new Error("Invalid expression: It contains non-numerical or invalid characters.");
+    }
+
+    // Use eval to calculate the result of the expression
+    try {
+      this.result = eval(sanitizedExpression);
+    } catch (error) {
+      return new Error("Error in evaluating the expression.");
+    }
+  }
+  
+}
+// calc = new Calculator();
+// calc.add(5);
+// calc.add(3);
+// calc.getResult();
+// calc.clear();
+// calc.calculate('(   15 + 3) /   6   ');
+// calc.getResult();
+// calc.clear();
+// calc.calculate('10 - (4 + 2)');
+// calc.getResult();
 module.exports = Calculator;
