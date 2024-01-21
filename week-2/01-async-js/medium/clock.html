@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0; 
+        }
+        .main{
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(255, 148, 164);
+        }
+        .time{
+            color: rgb(214, 65, 65);
+            font-size:109px;
+            font-weight: 600;
+        }
+        .pm{
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="time" >
+            <span class="hrs">00</span>: <span class="min">00</span>: <span class="second">00</span>
+        </div>
+        <div class="time" >
+            <span class="hrs">00</span>: <span class="min">00</span>: <span class="second">00</span> <span class="pm">AM</span>
+        </div>
+    </div>
+    <script>
+        // function timeupdate(){
+        //     const curr=new Date();
+        //     let s=curr.getSeconds();
+        //     let m=curr.getMinutes();
+        //     let h=curr.getHours();
+        //     console.log(h,m,s);
+        //     let pmhr=0;
+        //     if(h<12){
+        //         document.getElementsByClassName('pm')[0].innerText = 'AM';
+        //     }
+        //     else{
+        //         document.getElementsByClassName('pm')[0].innerText = 'PM';
+        //     }
+        //     document.getElementsByClassName('min')[0].innerText = m.toString().padStart(2, '0');
+        //     document.getElementsByClassName('min')[1].innerText = m.toString().padStart(2, '0');
+        //     document.getElementsByClassName('hrs')[0].innerText = h.toString().padStart(2, '0');
+        //     pmhr=h%12;
+        //     document.getElementsByClassName('hrs')[1].innerText = pmhr.toString().padStart(2, '0');
+        //     setInterval(()=>{
+        //         if (s < 59) {
+        //             s++;
+        //             document.getElementsByClassName('second')[0].innerText = s.toString().padStart(2, '0');
+        //             document.getElementsByClassName('second')[1].innerText = s.toString().padStart(2, '0');
+        //         }
+        //         else if ( m <= 59) {
+        //             ++m;
+        //             s=0
+        //             document.getElementsByClassName('second')[0].innerText = s.toString().padStart(2, '0');
+        //             document.getElementsByClassName('second')[1].innerText = s.toString().padStart(2, '0');
+        //             document.getElementsByClassName('min')[0].innerText = m.toString().padStart(2, '0');
+        //             document.getElementsByClassName('min')[1].innerText = m.toString().padStart(2, '0');
+                    
+        //         } 
+        //         else if(h<=24) {
+        //             // document.getElementsByClassName('min')[0].innerText = 0;
+        //             s=0; m=0; ++h;
+        //             document.getElementsByClassName('hrs')[0].innerText = h.toString().padStart(2, '0');
+        //             pmhr=h%12;
+        //             document.getElementsByClassName('hrs')[1].innerText = pmhr.toString().padStart(2, '0');
+        //             if(h<12){
+        //                 document.getElementsByClassName('pm')[0].innerText = 'AM';
+        //             }
+        //             else{
+        //                 document.getElementsByClassName('pm')[0].innerText = 'PM';
+        //             }
+        //         }
+        //         console.log(s);
+        //     },1000)
+        // }
+        // window.onload = function() {
+        //     timeupdate();
+        // };
+        function updateTime() {
+            const currentDate = new Date();
+            let hours = currentDate.getHours();
+            let minutes = currentDate.getMinutes();
+            let seconds = currentDate.getSeconds();
+
+            // Pad single-digit hours, minutes, and seconds with leading zeros
+            hours = hours.toString().padStart(2, '0');
+            minutes = minutes.toString().padStart(2, '0');
+            seconds = seconds.toString().padStart(2, '0');
+
+            document.getElementsByClassName('hrs')[0].innerText = hours;
+            document.getElementsByClassName('min')[0].innerText = minutes;
+            document.getElementsByClassName('second')[0].innerText = seconds;
+            document.getElementsByClassName('hrs')[1].innerText = hours%12;
+            document.getElementsByClassName('min')[1].innerText = minutes;
+            document.getElementsByClassName('second')[1].innerText = seconds;
+            if(hours<12){
+                document.getElementsByClassName('pm')[0].innerText = 'AM';
+            }
+            else{
+                document.getElementsByClassName('pm')[0].innerText = 'PM';
+            }
+        }
+
+        setInterval(updateTime, 1000);
+
+        // Initial update
+        updateTime();
+    </script>
+</body>
+</html>
