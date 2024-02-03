@@ -17,35 +17,42 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 app.use(express.json());
+
 app.get("/files",(req,res)=>{
   const folder=req.body.files;
-  const FPath=path.join(__dirname,folder);
-  if(!fs.existsSync(FPath)){
-    res.status(404).json({err:"Folder not found"});
-  }
+  const FPath=path.join(__dirname,folder|| "./files");
+  // if(!fs.existsSync(FPath)){
+  //   res.status(404).json({err:"Folder not found"});
+  // }
   fs.readdir(FPath,(err,files)=>{
     if(err){
-      res.send(500).json({err:"Error readin Folder"});
+      res.send(500).json({error: 'Failed to retrieve files'});
     }
-    res.status(200).json({files});
+    res.json({files});
   })
 })
 
-app.get("/files/:filename",(req,res)=>{
+app.get("/file/:filename",(req,res)=>{
   const FName=req.params.filename;
+
+  // if(!FName){
+  //   res.status(404).json({err:"Invalid req"});
+  // }
   
-  if(!FName){
-    res.status(400).json({err:"Invalid req"});
-  }
   const fpath=path.join(__dirname,"./files/",FName);
+  
+  
 
   fs.readFile(fpath,'utf8',(err,data)=>{
     if(err){
-      res.send(500).json({err:"Internal Server error"});
+      return res.status(404).send('File not found');
     }
-    res.status(200).json({data});
+    res.send(data);
   })
 })
+app.all('*',(req, res) => {
+  return res.status(404).send("Route not found");
+});
 app.listen(3001,()=>{
   console.log("Server is listening");
 })
