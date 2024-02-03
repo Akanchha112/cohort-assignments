@@ -16,6 +16,37 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const app = express();
+app.use(express.json());
+app.get("/files",(req,res)=>{
+  const folder=req.body.files;
+  const FPath=path.join(__dirname,folder);
+  if(!fs.existsSync(FPath)){
+    res.status(404).json({err:"Folder not found"});
+  }
+  fs.readdir(FPath,(err,files)=>{
+    if(err){
+      res.send(500).json({err:"Error readin Folder"});
+    }
+    res.status(200).json({files});
+  })
+})
 
+app.get("/files/:filename",(req,res)=>{
+  const FName=req.params.filename;
+  
+  if(!FName){
+    res.status(400).json({err:"Invalid req"});
+  }
+  const fpath=path.join(__dirname,"./files/",FName);
 
+  fs.readFile(fpath,'utf8',(err,data)=>{
+    if(err){
+      res.send(500).json({err:"Internal Server error"});
+    }
+    res.status(200).json({data});
+  })
+})
+app.listen(3001,()=>{
+  console.log("Server is listening");
+})
 module.exports = app;
