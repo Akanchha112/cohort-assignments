@@ -15,7 +15,9 @@ let numberOfRequestsForUser = {};
 setInterval(() => {
     numberOfRequestsForUser = {};
 }, 1000)
+let count=0;
 
+app.use(limitRequest);
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
