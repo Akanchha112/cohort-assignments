@@ -12,11 +12,25 @@ const app = express();
 // clears every one second
 
 let numberOfRequestsForUser = {};
+let count=0;
 setInterval(() => {
     numberOfRequestsForUser = {};
+    count=0;
 }, 1000)
-let count=0;
 
+function limitRequest(req,res,next){
+  if(count>=3){
+    res.send(404);
+  }
+  else{
+    count++;
+    numberOfRequestsForUser={
+      CountReq:count
+    }
+    next();
+  }
+  
+}
 app.use(limitRequest);
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
